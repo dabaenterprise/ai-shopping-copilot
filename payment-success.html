@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Activation Successful — AI Shopping Copilot</title>
+  <link rel="icon" href="favicon.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink:      #0E1116;
+      --surface:  #171B22;
+      --surface2: #1E232C;
+      --line:     #2A303B;
+      --text:     #E8EAF0;
+      --text-dim: #8B93A3;
+      --gold:     #C8A24B;
+      --gold-lite:#E4C878;
+      --green:    #2FCC71;
+      --red:      #FF5A5A;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      background: var(--ink);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .container { max-width: 540px; width: 100%; }
+
+    .success-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 48px 32px;
+      text-align: center;
+    }
+
+    .success-icon {
+      font-size: 64px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .success-sub {
+      font-size: 15px;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .plan-badge {
+      display: inline-block;
+      background: rgba(200, 162, 75, 0.14);
+      border: 1px solid rgba(200, 162, 75, 0.3);
+      color: var(--gold-lite);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 28px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .key-section {
+      background: var(--surface2);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+
+    .key-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+
+    .key-display {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .key-text {
+      background: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      word-break: break-all;
+      flex: 1;
+      color: var(--gold-lite);
+    }
+
+    .copy-btn {
+      background: linear-gradient(135deg, var(--gold-lite), var(--gold));
+      color: #1A1408;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+      flex-shrink: 0;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: inherit;
+    }
+
+    .copy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(200, 162, 75, 0.3);
+    }
+
+    .copy-btn:active {
+      transform: translateY(0);
+    }
+
+    .copy-feedback {
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 600;
+      display: none;
+      margin-top: 8px;
+    }
+
+    .instructions {
+      text-align: left;
+      background: rgba(47, 204, 113, 0.08);
+      border: 1px solid rgba(47, 204, 113, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 28px;
+    }
+
+    .instructions h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .instructions ol {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-left: 20px;
+    }
+
+    .instructions li {
+      margin-bottom: 6px;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 12px;
+      flex-direction: column;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-lite), var(--gold));
+      color: #1A1408;
+      box-shadow: 0 6px 18px rgba(200, 162, 75, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(200, 162, 75, 0.38);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold-lite);
+    }
+
+    .error-card {
+      background: rgba(255, 90, 90, 0.08);
+      border: 1px solid rgba(255, 90, 90, 0.3);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      display: none;
+    }
+
+    .error-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .error-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--red);
+    }
+
+    .error-card p {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(200, 162, 75, 0.2);
+      border-top: 3px solid var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="success-card" id="successCard" style="display: none;">
+    <div class="success-icon">✨</div>
+    <h1>Welcome to Pro!</h1>
+    <p class="success-sub">Your licence key is ready. Paste it into the extension to unlock unlimited analyses.</p>
+    <div class="plan-badge" id="planBadge">Pro Monthly</div>
+
+    <div class="key-section">
+      <div class="key-label">Your Licence Key</div>
+      <div class="key-display">
+        <div class="key-text" id="licenceKey">Loading…</div>
+        <button class="copy-btn" id="copyBtn">📋 Copy</button>
+      </div>
+      <div class="copy-feedback" id="copyFeedback">✓ Copied to clipboard</div>
+    </div>
+
+    <div class="instructions">
+      <h3>✓ How to activate</h3>
+      <ol>
+        <li>Open the AI Copilot extension</li>
+        <li>Click "I have a licence key" in the upgrade screen</li>
+        <li>Paste your key and click "Activate"</li>
+        <li>Enjoy unlimited AI analyses! 🎉</li>
+      </ol>
+    </div>
+
+    <div class="action-btns">
+      <button class="btn btn-primary" onclick="openExtension()">🧩 Open Extension</button>
+      <a href="https://dabaenterprise.github.io" class="btn btn-secondary" style="text-align: center; text-decoration: none;">← Back to home</a>
+    </div>
+  </div>
+
+  <div class="error-card" id="errorCard">
+    <div class="error-icon">⚠️</div>
+    <h2 id="errorTitle">Activation Failed</h2>
+    <p id="errorMsg">Something went wrong. Please try again.</p>
+    <button class="btn btn-secondary" onclick="location.href='https://dabaenterprise.github.io'">← Back to home</button>
+  </div>
+
+  <div class="success-card" id="loadingCard">
+    <div class="success-icon">⚡</div>
+    <h1>Activating your account…</h1>
+    <p class="success-sub">Verifying your payment and generating your licence key.</p>
+    <div class="loading"></div>
+    <div class="loading-text">This usually takes a few seconds…</div>
+  </div>
+</div>
+
+<script>
+  const BACKEND_URL = "https://backend-z2eg.onrender.com";
+
+  async function activateAccount() {
+    const params = new URLSearchParams(location.search);
+    const sessionId = params.get("session_id");
+    const plan = params.get("plan") || "monthly";
+
+    if (!sessionId) {
+      showError("No session ID", "Please complete your payment on Stripe and you'll be redirected here.");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/create-license`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId, plan })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.licenceKey) {
+        throw new Error(data.error || "Failed to create licence key");
+      }
+
+      showSuccess(data.licenceKey, plan);
+    } catch (err) {
+      showError("Activation Error", err.message || "Could not verify your payment. Please contact support.");
+      console.error(err);
+    }
+  }
+
+  function showSuccess(key, plan) {
+    document.getElementById("loadingCard").style.display = "none";
+    document.getElementById("errorCard").style.display = "none";
+    document.getElementById("successCard").style.display = "block";
+    document.getElementById("licenceKey").textContent = key;
+    document.getElementById("planBadge").textContent = plan === "yearly" ? "Pro Yearly" : "Pro Monthly";
+  }
+
+  function showError(title, msg) {
+    document.getElementById("loadingCard").style.display = "none";
+    document.getElementById("successCard").style.display = "none";
+    document.getElementById("errorCard").style.display = "block";
+    document.getElementById("errorTitle").textContent = title;
+    document.getElementById("errorMsg").textContent = msg;
+  }
+
+  document.getElementById("copyBtn").addEventListener("click", () => {
+    const key = document.getElementById("licenceKey").textContent;
+    navigator.clipboard.writeText(key).then(() => {
+      const feedback = document.getElementById("copyFeedback");
+      feedback.style.display = "block";
+      setTimeout(() => { feedback.style.display = "none"; }, 2000);
+    });
+  });
+
+  function openExtension() {
+    chrome.runtime.sendMessage({ type: "OPEN_POPUP" }, () => {});
+    setTimeout(() => {
+      alert("The extension should open. If it didn't, click the AI Copilot icon in your toolbar.");
+    }, 500);
+  }
+
+  activateAccount();
+</script>
+
+</body>
+</html>
