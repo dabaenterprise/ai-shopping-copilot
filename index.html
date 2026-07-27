@@ -1,119 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AI Shopping Copilot</title>
-  <style>
-    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#C8A24B;--white:#f6f7fb}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#0b1220 0%, #0f1724 100%);color:var(--white)}
-    main{max-width:920px;margin:48px auto;padding:28px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;box-shadow:0 10px 40px rgba(2,6,23,0.6)}
-    header h1{margin:0;font-size:28px;letter-spacing:-0.4px}
-    header p{margin:6px 0 18px;color:var(--muted)}
-    #subscribe{display:block;padding:18px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
-    label{display:block;margin-bottom:8px;color:var(--muted);font-size:13px}
-    input[type="email"]{width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.25);color:var(--white);font-size:14px}
-    .btn{padding:12px 18px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
-    .primary{background:linear-gradient(90deg,var(--accent),#e4c878);color:#111}
-    .secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--white)}
-    .row{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
-    .note{margin-top:12px;color:var(--muted);font-size:13px}
-    .status{margin-top:14px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);color:var(--muted);font-size:13px;border:1px dashed rgba(255,255,255,0.03)}
-    footer{margin-top:18px;color:var(--muted);font-size:12px;text-align:center}
-    @media (max-width:520px){main{margin:20px;padding:18px}}
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AI Shopping Copilot - Privacy & Payment Update</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .updates {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 6px;
+            text-align: left;
+        }
+        .update-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #555;
+        }
+        .update-item:last-child {
+            margin-bottom: 0;
+        }
+        .update-check {
+            color: #00C851;
+            font-weight: bold;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .steps {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        .steps-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .step:last-child {
+            margin-bottom: 0;
+        }
+        .step-num {
+            background: #667eea;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 12px;
+            font-size: 12px;
+        }
+        .step-text {
+            color: #555;
+            line-height: 1.5;
+            padding-top: 4px;
+        }
+        .code {
+            background: #2c3e50;
+            color: #00ff88;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            display: inline-block;
+        }
+        .button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+        }
+        .button-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            margin-left: 10px;
+        }
+        .button-secondary:hover {
+            background: #f0f4ff;
+            border-color: #764ba2;
+            color: #764ba2;
+        }
+        .buy-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+        .buy-btn {
+            padding: 12px 18px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .buy-monthly {
+            background: linear-gradient(135deg, #C8A24B, #E4C878);
+            color: #111;
+        }
+        .buy-yearly {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 13px;
+            color: #999;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* small status box for user feedback */
+        .status {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #444;
+        }
+
+        @media (max-width: 520px) {
+            .container { padding: 24px; }
+            .buy-row { flex-direction: column; gap: 10px; }
+        }
+    </style>
 </head>
 <body>
-  <main>
-    <header>
-      <h1>AI Shopping Copilot</h1>
-      <p>Upgrade to Pro for advanced features.</p>
-    </header>
+    <div class="container">
+        <div class="icon">✓</div>
+        <h1>Privacy & Payment Update</h1>
+        <p class="subtitle">
+            We've added Pro subscription support with Stripe. Your privacy is still our priority.
+        </p>
 
-    <section id="subscribe">
-      <h2 style="margin:0 0 12px 0;font-size:18px">Subscribe</h2>
+        <div class="updates">
+            <div class="update-item">
+                <span class="update-check">✓</span>
+                <span>Product analysis is still discarded immediately — no tracking</span>
+            </div>
+            <div class="update-item">
+                <span class="update-check">✓</span>
+                <span>Email is collected only during Stripe payment</span>
+            </div>
+            <div class="update-item">
+                <span class="update-check">✓</span>
+                <span>No payment card information is stored by us (Stripe handles it)</span>
+            </div>
+        </div>
 
-      <label for="email">Email (optional)</label>
-      <input id="email" type="email" placeholder="you@example.com" />
+        <p style="font-size: 14px; color: #e74c3c; font-weight: 500; margin: 20px 0;">
+            ⚠️ Your extension may have been auto-disabled by Chrome due to the privacy policy change.
+        </p>
 
-      <div class="row">
-        <button id="subscribe-monthly" class="btn primary">
-          Subscribe Monthly — $7 / month
-        </button>
+        <div class="steps">
+            <div class="steps-title">To re-enable your extension:</div>
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Go to <span class="code">chrome://extensions/</span></div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">Find "AI Shopping Copilot"</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">Toggle the switch <strong>ON</strong> to enable it</div>
+            </div>
+        </div>
 
-        <button id="subscribe-yearly" class="btn secondary">
-          Subscribe Yearly — $49 / year
-        </button>
-      </div>
+        <div>
+            <button class="button" id="copyBtn" onclick="copyExtensionsUrl()">
+                Copy chrome://extensions/
+            </button>
+            <a href="https://dabaenterprise.github.io/ai-shopping-copilot/privacy-policy.html" target="_blank" class="button button-secondary">
+                Read Full Policy
+            </a>
+        </div>
 
-      <p class="note">
-        You will be redirected to Stripe to complete payment. After payment you will be returned here to finish activation.
-      </p>
+        <!-- ===== New Buy Buttons (landing page) ===== -->
+        <div class="buy-row" aria-hidden="false">
+            <button class="buy-btn buy-monthly" id="buyMonthlyBtn" type="button">
+                Subscribe Monthly — $7 / month
+            </button>
+            <button class="buy-btn buy-yearly" id="buyYearlyBtn" type="button">
+                Subscribe Yearly — $49 / year
+            </button>
+        </div>
 
-      <div id="status" class="status" aria-live="polite">Status: idle</div>
-    </section>
+        <div id="checkoutStatus" class="status" role="status" aria-live="polite">Status: ready</div>
 
-    <footer>Questions? Contact <a href="mailto:privacy@aishoppingcopilot.com" style="color:var(--accent);text-decoration:none">privacy@aishoppingcopilot.com</a></footer>
-  </main>
+        <script>
+            function copyExtensionsUrl() {
+                navigator.clipboard.writeText('chrome://extensions/').then(() => {
+                    const btn = document.getElementById('copyBtn');
+                    const original = btn.textContent;
+                    btn.textContent = 'Copied! Paste in a new tab';
+                    setTimeout(() => { btn.textContent = original; }, 2500);
+                });
+            }
+        </script>
 
-  <script>
-    // ====== CONFIG ======
-    const BACKEND_URL = "https://backend-z2eg.onrender.com"; // keep this exact
-    const PRICE_MONTHLY = "price_1TuKALGiVKUf3MRADPm52LXm";
-    const PRICE_YEARLY  = "price_1TuK7yGiVKUf3MRAyGVQbfDO";
+        <!-- ===== Checkout helper script ===== -->
+        <script>
+            (function () {
+                // Backend endpoint (keep as your deployed backend)
+                const BACKEND_URL = "https://backend-z2eg.onrender.com";
 
-    // ====== helper to update UI status ======
-    function setStatus(text, isError = false) {
-      const el = document.getElementById("status");
-      el.textContent = "Status: " + text;
-      el.style.color = isError ? "#ffb4b4" : "";
-    }
+                // Use the test/live price IDs appropriate for the environment.
+                // Replace these with the correct price IDs from Stripe Test mode when testing.
+                const PRICE_MONTHLY = "price_1TuKALGiVKUf3MRADPm52LXm";
+                const PRICE_YEARLY  = "price_1TuK7yGiVKUf3MRAyGVQbfDO";
 
-    // ====== Checkout starter ======
-    async function startCheckout(priceId) {
-      try {
-        console.log("[checkout] start", priceId);
-        setStatus("starting checkout…");
+                // Optional: if you want to include an extension-shared header for extension-originated calls,
+                // set COPILOT_KEY here. For landing page calls this is not required, but harmless if present.
+                const COPILOT_KEY = ""; // leave empty or set to your extension shared secret if desired
 
-        const emailEl = document.getElementById("email");
-        const email = emailEl ? (emailEl.value || null) : null;
+                function setStatus(text, isError = false) {
+                    const el = document.getElementById("checkoutStatus");
+                    if (!el) return;
+                    el.textContent = "Status: " + text;
+                    el.style.color = isError ? "#b00020" : "";
+                }
 
-        const res = await fetch(`${BACKEND_URL}/api/create-checkout-session`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ priceId, email })
-        });
+                async function startCheckout(priceId) {
+                    try {
+                        setStatus("starting checkout…");
+                        // If you want to collect an email on the landing page, add an input and read its value here.
+                        // For now we do not require an email; Stripe can prompt for it.
+                        const payload = { priceId };
 
-        const data = await res.json();
-        console.log("[checkout] response", data);
+                        const res = await fetch(`${BACKEND_URL}/api/create-checkout-session`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                // include the extension key only if you set it above and your backend expects it
+                                ...(COPILOT_KEY ? { "x-copilot-key": COPILOT_KEY } : {})
+                            },
+                            body: JSON.stringify(payload)
+                        });
 
-        if (data?.url) {
-          setStatus("redirecting to Stripe…");
-          // open in same tab so Stripe can redirect back to this page
-          window.location.href = data.url;
-        } else {
-          setStatus("failed to start checkout: " + (data?.error || "unknown"), true);
-          console.error("Checkout failed:", data);
-          alert("Failed to start checkout: " + (data?.error || "unknown error"));
-        }
-      } catch (err) {
-        console.error("Checkout error:", err);
-        setStatus("checkout error: " + (err.message || err), true);
-        alert("Checkout error: " + (err.message || err));
-      }
-    }
+                        if (!res.ok) {
+                            const text = await res.text().catch(() => null);
+                            setStatus("failed to start checkout", true);
+                            console.error("create-checkout-session error:", res.status, text);
+                            alert("Failed to start checkout: " + (text || res.status));
+                            return;
+                        }
 
-    // ====== Wire buttons after DOM ready ======
-    document.addEventListener("DOMContentLoaded", () => {
-      console.log("index.html loaded");
-      setStatus("ready");
+                        const data = await res.json();
+                        if (data && data.url) {
+                            setStatus("redirecting to Stripe…");
+                            // Use same-tab redirect so Stripe can return to this page after payment
+                            window.location.href = data.url;
+                        } else {
+                            setStatus("unexpected response from server", true);
+                            console.error("Unexpected create-checkout-session response:", data);
+                            alert("Unexpected response from server. See console for details.");
+                        }
+                    } catch (err) {
+                        console.error("Checkout error:", err);
+                        setStatus("checkout error", true);
+                        alert("Checkout error: " + (err && err.message ? err.message : err));
+                    }
+                }
 
-      const btnMonthly = document.getElementById("subscribe-monthly");
-      const btnYearly  = document.getElementById("subscribe-yearly");
+                // Wire buttons
+                document.addEventListener("DOMContentLoaded", () => {
+                    const monthly = document.getElementById("buyMonthlyBtn");
+                    const yearly  = document.getElementById("buyYearlyBtn");
 
-      if (btnMonthly) btnMonthly.addEventListener("click", () => startCheckout(PRICE_MONTHLY));
-      if (btnYearly)  btnYearly.addEventListener("click",  () => startCheckout(PRICE_YEARLY));
-    });
-  </script>
+                    if (monthly) monthly.addEventListener("click", () => startCheckout(PRICE_MONTHLY));
+                    if (yearly)  yearly.addEventListener("click",  () => startCheckout(PRICE_YEARLY));
+                });
+            })();
+        </script>
+
+        <div class="footer">
+            Questions? Contact <a href="mailto:privacy@aishoppingcopilot.com">privacy@aishoppingcopilot.com</a>
+        </div>
+    </div>
 </body>
 </html>
