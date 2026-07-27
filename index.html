@@ -1,479 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name='impact-site-verification' value='72aa0cf1-e842-4aa7-8348-323e303bb5ad'/>
-<title>AI Shopping Copilot — by DABA Enterprise™</title>
-<meta name="description" content="AI Shopping Copilot analyses products on Amazon, AliExpress, Shein, eBay, Walmart and 20+ more stores — buying score, price history, review-trust check and clear verdict in seconds. Free to start."/>
-<link rel="icon" href="favicon.png"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-<style>
-  :root {
-    --ink:      #0E1116;
-    --surface:  #171B22;
-    --surface2: #1E232C;
-    --line:     #2A303B;
-    --text:     #E8EAF0;
-    --text-dim: #8B93A3;
-    --gold:     #C8A24B;
-    --gold-lite:#E4C878;
-    --green:    #2FCC71;
-    --amber:    #F5A623;
-    --red:      #FF5A5A;
-    --blue:     #4A9DFF;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Inter', -apple-system, system-ui, sans-serif;
-    background: var(--ink);
-    color: var(--text);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-  .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-  a { text-decoration: none; color: inherit; }
-
-  body::before { content:""; position: fixed; top:0; left:0; right:0; height:3px;
-    background: linear-gradient(90deg, var(--gold), var(--gold-lite), var(--gold)); z-index: 1000; }
-
-  header {
-    position: sticky; top: 0; z-index: 900;
-    background: rgba(14,17,22,0.85); backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--line);
-  }
-  .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; max-width: 1120px; margin: 0 auto; }
-  .brand { display: flex; align-items: center; gap: 13px; }
-  .brand img { width: 46px; height: 46px; border-radius: 50%; }
-  .brand-name { font-size: 21px; font-weight: 800; letter-spacing: -0.4px; color: var(--gold-lite); line-height: 1.1; }
-  .brand-tag { font-size: 11px; color: var(--text-dim); font-weight: 500; letter-spacing: 0.2px; }
-  .nav-links { display: flex; align-items: center; gap: 30px; }
-  .nav-links a { font-size: 14px; color: var(--text-dim); font-weight: 500; transition: color .15s; }
-  .nav-links a:hover { color: var(--text); }
-  .nav-cta {
-    background: linear-gradient(135deg, var(--gold-lite), var(--gold));
-    color: #1A1408 !important; font-weight: 800; font-size: 14px;
-    padding: 10px 20px; border-radius: 11px; transition: transform .2s, box-shadow .2s;
-    box-shadow: 0 6px 18px rgba(200,162,75,0.25);
-  }
-  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(200,162,75,0.38); }
-  @media (max-width: 760px) { .nav-links a:not(.nav-cta) { display: none; } .brand-tag { display:none; } }
-
-  .hero { position: relative; padding: 90px 0 70px; text-align: center; overflow: hidden; }
-  .hero::after { content:""; position:absolute; top:-160px; left:50%; transform:translateX(-50%);
-    width:700px; height:500px; background: radial-gradient(ellipse, rgba(200,162,75,0.14), transparent 65%); pointer-events:none; }
-  .eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:600;
-    color: var(--gold); background: rgba(200,162,75,0.1); border:1px solid rgba(200,162,75,0.28);
-    padding: 7px 16px; border-radius: 30px; margin-bottom: 28px; position: relative; z-index:1; }
-  .hero h1 { font-size: 60px; font-weight: 900; letter-spacing: -2px; line-height: 1.05; margin-bottom: 22px; position: relative; z-index:1; }
-  .hero h1 .accent { background: linear-gradient(135deg, var(--gold-lite), var(--gold)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .hero-sub { font-size: 19px; color: var(--text-dim); max-width: 620px; margin: 0 auto 34px; position: relative; z-index:1; }
-  .hero-actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; position: relative; z-index:1; }
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 9px;
-    background: linear-gradient(135deg, var(--gold-lite), var(--gold)); color: #1A1408; font-weight: 800; font-size: 16px;
-    padding: 15px 30px; border-radius: 14px; transition: transform .2s, box-shadow .2s; border: none; cursor: pointer;
-    box-shadow: 0 8px 26px rgba(200,162,75,0.3); font-family: inherit;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(200,162,75,0.44); }
-  .btn-secondary {
-    display: inline-flex; align-items: center; gap: 9px;
-    background: var(--surface); color: var(--text); font-weight: 700; font-size: 16px;
-    padding: 15px 26px; border-radius: 14px; border: 1px solid var(--line); transition: border-color .2s, transform .2s; cursor: pointer; font-family: inherit;
-  }
-  .btn-secondary:hover { border-color: var(--gold); transform: translateY(-2px); }
-  .hero-note { font-size: 13px; color: var(--text-dim); position: relative; z-index:1; }
-  .hero-note span { color: var(--green); font-weight: 600; }
-  @media (max-width:760px){ .hero h1{ font-size:40px; letter-spacing:-1px; } .hero-sub{ font-size:17px; } }
-
-  .hero-visual { margin-top: 50px; display: flex; justify-content: center; position: relative; z-index:1; }
-  .hero-visual img { max-width: 360px; width: 100%; height: auto; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.5)); }
-
-  section { padding: 80px 0; }
-  .section-eyebrow { text-align:center; font-size:13px; font-weight:700; letter-spacing:1.6px; text-transform:uppercase; color: var(--gold); margin-bottom: 14px; }
-  .section-title { text-align:center; font-size: 40px; font-weight: 800; letter-spacing:-1px; margin-bottom: 16px; }
-  .section-sub { text-align:center; font-size: 17px; color: var(--text-dim); max-width: 620px; margin: 0 auto 52px; }
-  @media (max-width:760px){ .section-title{ font-size:30px; } }
-  .alt { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-
-  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  @media (max-width: 900px){ .features-grid{ grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 600px){ .features-grid{ grid-template-columns: 1fr; } }
-  .feature-card {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 26px;
-    transition: border-color .2s, transform .2s;
-  }
-  .feature-card:hover { border-color: var(--gold); transform: translateY(-4px); }
-  .feature-icon { width: 52px; height: 52px; border-radius: 13px; display:flex; align-items:center; justify-content:center; font-size: 26px; margin-bottom: 16px; background: var(--surface2); }
-  .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 9px; }
-  .feature-card p { font-size: 14px; color: var(--text-dim); }
-  .feature-tag { display:inline-block; margin-top: 14px; font-size: 11px; font-weight: 700; letter-spacing:.4px; text-transform: uppercase; padding: 4px 10px; border-radius: 7px; }
-  .tag-pro { background: rgba(200,162,75,0.14); color: var(--gold-lite); }
-  .tag-free { background: rgba(47,204,113,0.14); color: var(--green); }
-
-  .platform-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:20px; }
-  @media (max-width:760px){ .platform-grid{ grid-template-columns:1fr; } }
-  .platform-card { background: var(--ink); border:1px solid var(--line); border-radius:18px; padding:26px; }
-  .platform-card .pf-icon { font-size:30px; margin-bottom:12px; }
-  .platform-card h3 { font-size:18px; font-weight:700; margin-bottom:8px; color: var(--gold-lite); }
-  .platform-card p { font-size:14px; color: var(--text-dim); }
-
-  .steps { display:flex; flex-direction:column; gap:20px; max-width: 720px; margin: 0 auto; }
-  .step { display:flex; gap:20px; align-items:flex-start; background: var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px 24px; }
-  .step-num { flex-shrink:0; width:42px; height:42px; border-radius:12px; background: linear-gradient(135deg, var(--gold-lite), var(--gold)); color:#1A1408; font-weight:800; font-size:19px; display:flex; align-items:center; justify-content:center; }
-  .step-content h3 { font-size:18px; font-weight:700; margin-bottom:5px; }
-  .step-content p { font-size:14px; color: var(--text-dim); }
-
-  .sites-grid { display:grid; grid-template-columns: repeat(4,1fr); gap:12px; max-width: 820px; margin: 0 auto; }
-  @media (max-width:760px){ .sites-grid{ grid-template-columns:repeat(2,1fr); } }
-  .site-chip { background: var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px 16px; font-size:14px; font-weight:600; display:flex; align-items:center; gap:9px; transition: border-color .2s; }
-  .site-chip:hover { border-color: var(--gold); }
-  .site-flag { font-size:18px; }
-
-  .pricing-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:20px; max-width: 960px; margin: 0 auto; }
-  @media (max-width:860px){ .pricing-grid{ grid-template-columns:1fr; max-width:420px; } }
-  .price-card { background: var(--surface); border:1px solid var(--line); border-radius:20px; padding:32px; position:relative; }
-  .price-card.featured { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 20px 50px rgba(200,162,75,0.12); }
-  .price-badge { position:absolute; top:-13px; left:50%; transform:translateX(-50%); background: linear-gradient(135deg, var(--gold-lite), var(--gold)); color:#1A1408; font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; padding:5px 16px; border-radius:20px; }
-  .price-name { font-size:15px; font-weight:700; color: var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; }
-  .price-amount { font-size:44px; font-weight:900; letter-spacing:-1.5px; }
-  .price-amount span { font-size:16px; font-weight:600; color: var(--text-dim); letter-spacing:0; }
-  .price-sub { font-size:13px; color: var(--text-dim); margin: 6px 0 22px; }
-  .price-features { list-style:none; margin-bottom:26px; }
-  .price-features li { font-size:14px; padding:8px 0; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--line); }
-  .price-features li:last-child { border-bottom:none; }
-  .check { color: var(--green); font-weight:800; }
-  .lock { color: var(--text-dim); }
-  .price-btn { display:block; text-align:center; padding:14px; border-radius:13px; font-weight:800; font-size:15px; font-family:inherit; cursor:pointer; border:none; width:100%; }
-  .price-btn.primary { background: linear-gradient(135deg, var(--gold-lite), var(--gold)); color:#1A1408; }
-  .price-btn.ghost { background: transparent; border:1px solid var(--line); color: var(--text); }
-
-  .share-strip { background: var(--surface); border:1px solid var(--line); border-radius:20px; padding:36px; text-align:center; max-width:720px; margin:0 auto; }
-  .share-strip h3 { font-size:24px; font-weight:800; margin-bottom:10px; }
-  .share-strip p { font-size:15px; color: var(--text-dim); margin-bottom:22px; }
-  .share-buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-  .share-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:12px; font-weight:700; font-size:14px; cursor:pointer; border:1px solid var(--line); background: var(--ink); color: var(--text); transition: border-color .2s, transform .2s; font-family:inherit; }
-  .share-btn:hover { border-color: var(--gold); transform: translateY(-2px); }
-  .share-btn.gold { background: linear-gradient(135deg, var(--gold-lite), var(--gold)); color:#1A1408; border:none; }
-
-  .cta-section { text-align:center; }
-  .cta-inner { background: linear-gradient(160deg, rgba(200,162,75,0.12), var(--surface)); border:1px solid rgba(200,162,75,0.3); border-radius:26px; padding:60px 40px; }
-  .cta-inner h2 { font-size:38px; font-weight:800; letter-spacing:-1px; margin-bottom:14px; }
-  .cta-inner p { font-size:17px; color: var(--text-dim); margin-bottom:30px; }
-  @media (max-width:760px){ .cta-inner h2{ font-size:28px; } }
-
-  footer { border-top:1px solid var(--line); padding: 44px 0; background: var(--ink); }
-  .footer-inner { display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
-  .footer-brand { display:flex; align-items:center; gap:12px; }
-  .footer-brand img { width:40px; height:40px; border-radius:50%; }
-  .footer-brand .fb-name { font-size:16px; font-weight:800; color: var(--gold-lite); }
-  .footer-brand .fb-tag { font-size:11px; color: var(--text-dim); }
-  .footer-links { display:flex; gap:22px; font-size:13px; color: var(--text-dim); }
-  .footer-links a:hover { color: var(--text); }
-  .footer-copy { text-align:center; font-size:12px; color: var(--text-dim); margin-top:28px; padding-top:22px; border-top:1px solid var(--line); }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Shopping Copilot</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <main>
+    <header>
+      <h1>AI Shopping Copilot</h1>
+      <p>Upgrade to Pro for advanced features.</p>
+    </header>
 
-<header>
-  <div class="nav">
-    <a href="#" class="brand">
-      <img src="logo-mark.png" alt="DABA Enterprise"/>
-      <div>
-        <div class="brand-name">DABA Enterprise</div>
-        <div class="brand-tag">Digital Acceleration Beyond Automation</div>
-      </div>
-    </a>
-    <nav class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#how">How it works</a>
-      <a href="#pricing">Pricing</a>
-      <a href="AI-Shopping-Copilot-User-Manual.pdf" target="_blank">User Guide</a>
-      <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/jmkamccanemafdjhekmpjpcbiomicljj" class="nav-cta" target="_blank">Add to Chrome</a>
-    </nav>
-  </div>
-</header>
+    <section id="subscribe">
+      <h2>Subscribe</h2>
 
-<section class="hero">
-  <div class="container">
-    <div class="eyebrow">✨ Chrome Extension · Powered by Claude AI</div>
-    <h1>Shop smarter on<br/>every store. <span class="accent">One AI copilot.</span></h1>
-    <p class="hero-sub">Instant buying score, real price history, review-trust check and a clear verdict — on Amazon, AliExpress, Shein, eBay, Temu, Target, Etsy, Walmart and 20+ more stores. Free to start.</p>
-    <div class="hero-actions">
-      <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/jmkamccanemafdjhekmpjpcbiomicljj" class="btn-primary" target="_blank">🧩 Add to Chrome — Free</a>
-      <button class="btn-secondary" onclick="shareSite()">⤴ Share</button>
-    </div>
-    <p class="hero-note"><span>✓ Free</span> · No account needed · No API key · Works on 28+ stores worldwide</p>
-    <div class="hero-visual">
-      <img src="widget-hero.png" alt="AI Shopping Copilot widget showing an 87 out of 100 buying score"/>
-    </div>
-  </div>
-</section>
+      <label for="email">Email (optional)</label>
+      <input id="email" type="email" placeholder="you@example.com" />
 
-<section id="features">
-  <div class="container">
-    <div class="section-eyebrow">What you get</div>
-    <h2 class="section-title">Every tool you need to shop smarter</h2>
-    <p class="section-sub">Open any product page and get a full AI intelligence report in seconds. No setup, no account, no API key.</p>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>Buying Score</h3>
-        <p>A 0–100 score from Value, Quality and Reliability — a structured AI verdict, not a guess.</p>
-        <span class="feature-tag tag-pro">Pro feature</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🛡️</div>
-        <h3>Review Trust</h3>
-        <p>Detects fake-review patterns and gives an authenticity score so you know which ratings to trust.</p>
-        <span class="feature-tag tag-pro">Pro feature</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📈</div>
-        <h3>Price History &amp; Advice</h3>
-        <p>See up to 12 months of pricing, plus whether now's a good time to buy or worth the wait.</p>
-        <span class="feature-tag tag-pro">Pro feature</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">💬</div>
-        <h3>Review Insights</h3>
-        <p>What buyers love and the recurring issues — with rough percentages — distilled from real reviews.</p>
-        <span class="feature-tag tag-pro">Pro feature</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🏷️</div>
-        <h3>Coupon Finder</h3>
-        <p>Working promo codes surface automatically with one-tap copy — no separate coupon sites.</p>
-        <span class="feature-tag tag-free">Free</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⭐</div>
-        <h3>Watchlist &amp; Savings</h3>
-        <p>Track products for price drops and watch your estimated savings grow over time.</p>
-        <span class="feature-tag tag-free">Free</span>
-      </div>
-    </div>
-  </div>
-</section>
+      <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
+        <button id="subscribe-monthly" class="btn primary">
+          Subscribe Monthly — $7 / month
+        </button>
 
-<section class="alt">
-  <div class="container">
-    <div class="section-eyebrow">Built for each store</div>
-    <h2 class="section-title">Tuned for how each store really works</h2>
-    <p class="section-sub">The AI adapts its analysis to each platform's quirks — not a one-size-fits-all score.</p>
-    <div class="platform-grid">
-      <div class="platform-card">
-        <div class="pf-icon">📦</div>
-        <h3>Amazon</h3>
-        <p>Weighs verified-purchase reviews, seller reputation and price history for a rounded verdict.</p>
+        <button id="subscribe-yearly" class="btn secondary">
+          Subscribe Yearly — $49 / year
+        </button>
       </div>
-      <div class="platform-card">
-        <div class="pf-icon">🛍️</div>
-        <h3>AliExpress</h3>
-        <p>Prioritises seller trustworthiness and shipping reality — critical on a marketplace this varied.</p>
-      </div>
-      <div class="platform-card">
-        <div class="pf-icon">👗</div>
-        <h3>Shein</h3>
-        <p>Focuses on sizing intelligence — flags "runs small/large" and photo-vs-reality complaints.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<section id="how">
-  <div class="container">
-    <div class="section-eyebrow">How it works</div>
-    <h2 class="section-title">Three steps. Zero effort.</h2>
-    <p class="section-sub">No configuration, no learning curve. Install and shop.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h3>Install &amp; pin</h3>
-          <p>Add to Chrome in one click and pin it to your toolbar. No account, no API key.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h3>Open any product page</h3>
-          <p>Works on Amazon worldwide, AliExpress, Shein, eBay, Walmart, Best Buy, JB Hi-Fi, Kogan, Harvey Norman and more.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h3>Click Analyse</h3>
-          <p>Watch the AI report build in real time — buying score, price history, review insights, verdict and more.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+      <p style="margin-top:12px; color:#666; font-size:13px;">
+        You will be redirected to Stripe to complete payment. After payment you will be returned here to finish activation.
+      </p>
+    </section>
+  </main>
 
-<section class="alt">
-  <div class="container">
-    <div class="section-eyebrow">Coverage</div>
-    <h2 class="section-title">All your favourite stores. One AI copilot.</h2>
-    <p class="section-sub">28+ supported stores and growing.</p>
-    <div class="sites-grid">
-      <div class="site-chip"><span class="site-flag">🇦🇺</span>Amazon AU</div>
-      <div class="site-chip"><span class="site-flag">🇺🇸</span>Amazon US</div>
-      <div class="site-chip"><span class="site-flag">🇬🇧</span>Amazon UK</div>
-      <div class="site-chip"><span class="site-flag">🇨🇦</span>Amazon CA</div>
-      <div class="site-chip"><span class="site-flag">📦</span>AliExpress</div>
-      <div class="site-chip"><span class="site-flag">👗</span>Shein</div>
-      <div class="site-chip"><span class="site-flag">🛍</span>eBay</div>
-      <div class="site-chip"><span class="site-flag">🛒</span>Walmart</div>
-      <div class="site-chip"><span class="site-flag">💻</span>Best Buy</div>
-      <div class="site-chip"><span class="site-flag">🎯</span>Target</div>
-      <div class="site-chip"><span class="site-flag">🛍️</span>Temu</div>
-      <div class="site-chip"><span class="site-flag">🎨</span>Etsy</div>
-      <div class="site-chip"><span class="site-flag">🎧</span>JB Hi-Fi</div>
-      <div class="site-chip"><span class="site-flag">📱</span>Kogan</div>
-      <div class="site-chip"><span class="site-flag">🏠</span>Harvey Norman</div>
-    </div>
-  </div>
-</section>
+  <!-- Keep any existing scripts here, then add the checkout helper at the end -->
+  <script>
+    // Replace with your backend URL if different
+    const BACKEND_URL = "https://backend-z2eg.onrender.com";
 
-<section id="pricing">
-  <div class="container">
-    <div class="section-eyebrow">Pricing</div>
-    <h2 class="section-title">Start free. Go Pro when you're ready.</h2>
-    <p class="section-sub">7 full AI analyses every day, free forever. Upgrade for unlimited.</p>
-    <div class="pricing-grid" style="grid-template-columns:repeat(3,1fr);max-width:960px">
-      <div class="price-card">
-        <div class="price-name">Free</div>
-        <div class="price-amount">$0</div>
-        <div class="price-sub">Forever. No card required.</div>
-        <ul class="price-features">
-          <li><span class="check">✓</span> 7 full AI analyses / day</li>
-          <li><span class="check">✓</span> Unlimited basic analyses</li>
-          <li><span class="check">✓</span> Coupon finder</li>
-          <li><span class="check">✓</span> Watchlist &amp; savings</li>
-          <li><span class="check">✓</span> AI chat</li>
-        </ul>
-        <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/jmkamccanemafdjhekmpjpcbiomicljj" class="price-btn ghost" target="_blank">Add to Chrome — Free</a>
-      </div>
-      <div class="price-card featured">
-        <div class="price-badge">Most popular</div>
-        <div class="price-name">Pro Monthly</div>
-        <div class="price-amount">$7<span> / mo</span></div>
-        <div class="price-sub">Cancel any time · no commitment</div>
-        <ul class="price-features">
-          <li><span class="check">✓</span> Unlimited full AI analyses</li>
-          <li><span class="check">✓</span> Buying Score + breakdown</li>
-          <li><span class="check">✓</span> Review-trust check</li>
-          <li><span class="check">✓</span> Price history &amp; advice</li>
-          <li><span class="check">✓</span> Everything in Free</li>
-        </ul>
-        <a href="https://buy.stripe.com/5kQcN52Ls4EBfkIdPr9IQ01?success_url=https%3A%2F%2Fdabaenterprise.github.io%2Fai-shopping-copilot%2Fpayment-success.html%3Fplan%3Dmonthly" class="price-btn primary" target="_blank">Go Pro — $7/month</a>
-      </div>
-      <div class="price-card">
-        <div class="price-badge" style="background:var(--surface2);color:var(--gold-lite);border:1px solid var(--gold)">Save 30%</div>
-        <div class="price-name">Pro Yearly</div>
-        <div class="price-amount">$49<span> / yr</span></div>
-        <div class="price-sub">≈ $4.08/month · best value</div>
-        <ul class="price-features">
-          <li><span class="check">✓</span> Unlimited full AI analyses</li>
-          <li><span class="check">✓</span> Buying Score + breakdown</li>
-          <li><span class="check">✓</span> Review-trust check</li>
-          <li><span class="check">✓</span> Price history &amp; advice</li>
-          <li><span class="check">✓</span> Everything in Free</li>
-        </ul>
-        <a href="https://buy.stripe.com/28E00jgCi1sp0pOcLn9IQ00?success_url=https%3A%2F%2Fdabaenterprise.github.io%2Fai-shopping-copilot%2Fpayment-success.html%3Fplan%3Dyearly" class="price-btn ghost" style="border-color:var(--gold);color:var(--gold-lite)" target="_blank">Go Pro — $49/year</a>
-      </div>
-    </div>
-    <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--text-dim)">✓ 7-day money-back guarantee · Secure payment via Stripe</p>
-  </div>
-</section>
+    // Your Stripe price IDs
+    const PRICE_MONTHLY = "price_1TuK7yGiVKUf3MRAyGVQbfDO";
+    const PRICE_YEARLY  = "price_1TuKALGiVKUf3MRADPm52LXm";
 
-<section class="alt">
-  <div class="container">
-    <div class="share-strip">
-      <h3>Love it? Share it. ♥</h3>
-      <p>Help a friend shop smarter too — it takes two seconds.</p>
-      <div class="share-buttons">
-        <button class="share-btn gold" onclick="shareSite()">⤴ Share</button>
-        <a class="share-btn" id="shareX" target="_blank">𝕏 Post</a>
-        <a class="share-btn" id="shareWa" target="_blank">💬 WhatsApp</a>
-        <a class="share-btn" id="shareFb" target="_blank">📘 Facebook</a>
-        <button class="share-btn" onclick="copyLink(this)">🔗 Copy link</button>
-      </div>
-    </div>
-  </div>
-</section>
+    async function startCheckout(priceId) {
+      try {
+        const emailEl = document.getElementById("email");
+        const email = emailEl ? (emailEl.value || null) : null;
 
-<section class="cta-section">
-  <div class="container">
-    <div class="cta-inner">
-      <h2>Ready to shop smarter?</h2>
-      <p>Join shoppers using AI to buy with confidence — free to start, no account needed.</p>
-      <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/jmkamccanemafdjhekmpjpcbiomicljj" class="btn-primary" target="_blank">🧩 Add to Chrome — Free</a>
-    </div>
-  </div>
-</section>
+        const res = await fetch(`${BACKEND_URL}/api/create-checkout-session`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ priceId, email })
+        });
 
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <a href="#" class="footer-brand">
-        <img src="logo-mark.png" alt="DABA Enterprise"/>
-        <div>
-          <div class="fb-name">DABA Enterprise™</div>
-          <div class="fb-tag">Digital Acceleration Beyond Automation</div>
-        </div>
-      </a>
-      <div class="footer-links">
-        <a href="#features">Features</a>
-        <a href="#pricing">Pricing</a>
-        <a href="AI-Shopping-Copilot-User-Manual.pdf" target="_blank">User Guide</a>
-        <a href="privacy-policy.html">Privacy</a>
-        <a href="mailto:contact@daba-enterprise.com">Contact</a>
-        <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/jmkamccanemafdjhekmpjpcbiomicljj" target="_blank">Add to Chrome</a>
-      </div>
-    </div>
-    <div class="footer-copy">
-      © 2026 DABA Enterprise™ — AI Shopping Copilot. All rights reserved. Powered by Claude AI.
-      <br/>Questions? <a href="mailto:contact@daba-enterprise.com" style="color:var(--gold)">contact@daba-enterprise.com</a>
-    </div>
-  </div>
-</footer>
-
-<script>
-  var STORE_URL = "https://chromewebstore.google.com/detail/ai-shopping-copilot/jmkamccanemafdjhekmpjpcbiomicljj";
-  var SHARE_TEXT = "AI Shopping Copilot — instant buying scores, real review checks and price history on Amazon, AliExpress, Shein & more. Shop smarter:";
-
-  async function shareSite() {
-    if (navigator.share) {
-      try { await navigator.share({ title: "AI Shopping Copilot", text: SHARE_TEXT, url: STORE_URL }); return; }
-      catch (e) { if (e && e.name === "AbortError") return; }
+        const data = await res.json();
+        if (data?.url) {
+          // Use location.href to ensure GitHub Pages allows the redirect
+          window.location.href = data.url;
+        } else {
+          console.error("Checkout failed:", data);
+          alert("Failed to start checkout: " + (data?.error || "unknown error"));
+        }
+      } catch (err) {
+        console.error("Checkout error:", err);
+        alert("Checkout error: " + (err.message || err));
+      }
     }
-    copyToClipboard(SHARE_TEXT + " " + STORE_URL);
-    alert("Link copied to clipboard — thanks for sharing!");
-  }
-  function copyLink(btn) {
-    copyToClipboard(STORE_URL);
-    var prev = btn.innerHTML; btn.innerHTML = "✓ Copied!";
-    setTimeout(function(){ btn.innerHTML = prev; }, 1600);
-  }
-  function copyToClipboard(text) {
-    if (navigator.clipboard) { navigator.clipboard.writeText(text); }
-    else {
-      var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta);
-      ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
-    }
-  }
-  (function(){
-    var u = encodeURIComponent(STORE_URL);
-    var t = encodeURIComponent(SHARE_TEXT);
-    document.getElementById("shareX").href  = "https://twitter.com/intent/tweet?text=" + t + "&url=" + u;
-    document.getElementById("shareWa").href = "https://wa.me/?text=" + t + "%20" + u;
-    document.getElementById("shareFb").href = "https://www.facebook.com/sharer/sharer.php?u=" + u;
-  })();
-</script>
+
+    // Wire buttons after DOM is ready
+    document.addEventListener("DOMContentLoaded", () => {
+      const btnMonthly = document.getElementById("subscribe-monthly");
+      const btnYearly  = document.getElementById("subscribe-yearly");
+
+      if (btnMonthly) btnMonthly.addEventListener("click", () => startCheckout(PRICE_MONTHLY));
+      if (btnYearly)  btnYearly.addEventListener("click",  () => startCheckout(PRICE_YEARLY));
+    });
+  </script>
 </body>
 </html>
