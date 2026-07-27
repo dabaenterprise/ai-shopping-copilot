@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Shopping Copilot - Privacy & Payment Update</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -19,7 +19,7 @@
             background: white;
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 700px;
+            max-width: 500px;
             width: 100%;
             padding: 40px;
             text-align: center;
@@ -144,6 +144,22 @@
             border-color: #764ba2;
             color: #764ba2;
         }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 13px;
+            color: #999;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Buy buttons */
         .buy-row {
             display: flex;
             gap: 12px;
@@ -169,31 +185,10 @@
             border: 2px solid #667eea;
             color: #667eea;
         }
-        .footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-            font-size: 13px;
-            color: #999;
-        }
-        .footer a {
-            color: #667eea;
-            text-decoration: none;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* small status box for user feedback */
         .status {
             margin-top: 12px;
             font-size: 13px;
             color: #444;
-        }
-
-        @media (max-width: 520px) {
-            .container { padding: 24px; }
-            .buy-row { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
@@ -249,7 +244,18 @@
             </a>
         </div>
 
-        <!-- ===== New Buy Buttons (landing page) ===== -->
+        <script>
+            function copyExtensionsUrl() {
+                navigator.clipboard.writeText('chrome://extensions/').then(() => {
+                    const btn = document.getElementById('copyBtn');
+                    const original = btn.textContent;
+                    btn.textContent = 'Copied! Paste in a new tab';
+                    setTimeout(() => { btn.textContent = original; }, 2500);
+                });
+            }
+        </script>
+
+        <!-- ====== Added buy buttons and helper only ====== -->
         <div class="buy-row" aria-hidden="false">
             <button class="buy-btn buy-monthly" id="buyMonthlyBtn" type="button">
                 Subscribe Monthly — $7 / month
@@ -262,30 +268,11 @@
         <div id="checkoutStatus" class="status" role="status" aria-live="polite">Status: ready</div>
 
         <script>
-            function copyExtensionsUrl() {
-                navigator.clipboard.writeText('chrome://extensions/').then(() => {
-                    const btn = document.getElementById('copyBtn');
-                    const original = btn.textContent;
-                    btn.textContent = 'Copied! Paste in a new tab';
-                    setTimeout(() => { btn.textContent = original; }, 2500);
-                });
-            }
-        </script>
-
-        <!-- ===== Checkout helper script ===== -->
-        <script>
             (function () {
-                // Backend endpoint (keep as your deployed backend)
                 const BACKEND_URL = "https://backend-z2eg.onrender.com";
-
-                // Use the test/live price IDs appropriate for the environment.
-                // Replace these with the correct price IDs from Stripe Test mode when testing.
                 const PRICE_MONTHLY = "price_1TuKALGiVKUf3MRADPm52LXm";
                 const PRICE_YEARLY  = "price_1TuK7yGiVKUf3MRAyGVQbfDO";
-
-                // Optional: if you want to include an extension-shared header for extension-originated calls,
-                // set COPILOT_KEY here. For landing page calls this is not required, but harmless if present.
-                const COPILOT_KEY = ""; // leave empty or set to your extension shared secret if desired
+                const COPILOT_KEY = ""; // leave empty unless you want to include x-copilot-key
 
                 function setStatus(text, isError = false) {
                     const el = document.getElementById("checkoutStatus");
@@ -297,15 +284,12 @@
                 async function startCheckout(priceId) {
                     try {
                         setStatus("starting checkout…");
-                        // If you want to collect an email on the landing page, add an input and read its value here.
-                        // For now we do not require an email; Stripe can prompt for it.
                         const payload = { priceId };
 
                         const res = await fetch(`${BACKEND_URL}/api/create-checkout-session`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
-                                // include the extension key only if you set it above and your backend expects it
                                 ...(COPILOT_KEY ? { "x-copilot-key": COPILOT_KEY } : {})
                             },
                             body: JSON.stringify(payload)
@@ -322,7 +306,6 @@
                         const data = await res.json();
                         if (data && data.url) {
                             setStatus("redirecting to Stripe…");
-                            // Use same-tab redirect so Stripe can return to this page after payment
                             window.location.href = data.url;
                         } else {
                             setStatus("unexpected response from server", true);
@@ -336,7 +319,6 @@
                     }
                 }
 
-                // Wire buttons
                 document.addEventListener("DOMContentLoaded", () => {
                     const monthly = document.getElementById("buyMonthlyBtn");
                     const yearly  = document.getElementById("buyYearlyBtn");
@@ -344,6 +326,9 @@
                     if (monthly) monthly.addEventListener("click", () => startCheckout(PRICE_MONTHLY));
                     if (yearly)  yearly.addEventListener("click",  () => startCheckout(PRICE_YEARLY));
                 });
+
+                // Expose for debugging if needed
+                window.startCheckout = startCheckout;
             })();
         </script>
 
