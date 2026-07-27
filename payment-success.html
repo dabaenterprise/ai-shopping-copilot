@@ -267,7 +267,7 @@
   <div class="success-card" id="successCard" style="display: none;">
     <div class="success-icon">✨</div>
     <h1>Welcome to Pro!</h1>
-    <p class="success-sub">Your licence key is ready. Paste it into the extension to unlock unlimited analyses.</p>
+    <p class="success-sub" id="successSub">Activating your extension automatically…</p>
     <div class="plan-badge" id="planBadge">Pro Monthly</div>
 
     <div class="key-section">
@@ -279,9 +279,9 @@
       <div class="copy-feedback" id="copyFeedback">✓ Copied to clipboard</div>
     </div>
 
-    <div class="instructions">
-      <h3>✓ How to activate</h3>
-      <ol>
+    <div class="instructions" id="instructions">
+      <h3 id="instructionsTitle">✓ How to activate</h3>
+      <ol id="instructionsList">
         <li>Open the AI Copilot extension</li>
         <li>Click "I have a licence key" in the upgrade screen</li>
         <li>Paste your key and click "Activate"</li>
@@ -313,6 +313,27 @@
 
 <script>
   const BACKEND_URL = "https://backend-z2eg.onrender.com";
+  const EXTENSION_ID = "jmkamccanemafdjhekmpjpcbiomicljj";
+
+  // Hands the key straight to the extension so the user doesn't have to
+  // copy/paste it. Falls back to the manual instructions if the extension
+  // isn't installed, is an older version without this support, or the
+  // messaging API just isn't available (e.g. Firefox, non-Chrome browsers).
+  function autoActivateExtension(key) {
+    return new Promise((resolve) => {
+      if (typeof chrome === "undefined" || !chrome.runtime || !chrome.runtime.sendMessage) {
+        resolve(false);
+        return;
+      }
+      try {
+        chrome.runtime.sendMessage(EXTENSION_ID, { type: "ACTIVATE_LICENSE", key }, (response) => {
+          resolve(!chrome.runtime.lastError && response && response.ok);
+        });
+      } catch (e) {
+        resolve(false);
+      }
+    });
+  }
 
   async function activateAccount() {
     const params = new URLSearchParams(location.search);
@@ -338,6 +359,17 @@
       }
 
       showSuccess(data.licenceKey, plan);
+
+      const activated = await autoActivateExtension(data.licenceKey);
+      if (activated) {
+        document.getElementById("successSub").textContent = "Your extension is already activated — no copy/paste needed.";
+        document.getElementById("instructionsTitle").textContent = "✓ Pro is active";
+        document.getElementById("instructionsList").innerHTML = `
+          <li>Click the AI Copilot icon in your toolbar</li>
+          <li>Unlimited analyses are unlocked — enjoy! 🎉</li>`;
+      } else {
+        document.getElementById("successSub").textContent = "Your licence key is ready. Paste it into the extension to unlock unlimited analyses.";
+      }
     } catch (err) {
       showError("Activation Error", err.message || "Could not verify your payment. Please contact support.");
       console.error(err);
@@ -370,10 +402,13 @@
   });
 
   function openExtension() {
-    chrome.runtime.sendMessage({ type: "OPEN_POPUP" }, () => {});
-    setTimeout(() => {
-      alert("The extension should open. If it didn't, click the AI Copilot icon in your toolbar.");
-    }, 500);
+    if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+      try {
+        chrome.runtime.sendMessage(EXTENSION_ID, { type: "OPEN_POPUP" }, () => {});
+        return;
+      } catch (e) {}
+    }
+    alert("Click the AI Copilot icon in your toolbar to open the extension.");
   }
 
   activateAccount();
