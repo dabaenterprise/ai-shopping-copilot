@@ -291,7 +291,7 @@
 
     <div class="action-btns">
       <button class="btn btn-primary" onclick="openExtension()">🧩 Open Extension</button>
-      <a href="https://dabaenterprise.github.io" class="btn btn-secondary" style="text-align: center; text-decoration: none;">← Back to home</a>
+      <a href="https://dabaenterprise.github.io/ai-shopping-copilot/" class="btn btn-secondary" style="text-align: center; text-decoration: none;">← Back to home</a>
     </div>
   </div>
 
@@ -299,7 +299,7 @@
     <div class="error-icon">⚠️</div>
     <h2 id="errorTitle">Activation Failed</h2>
     <p id="errorMsg">Something went wrong. Please try again.</p>
-    <button class="btn btn-secondary" onclick="location.href='https://dabaenterprise.github.io'">← Back to home</button>
+    <button class="btn btn-secondary" onclick="location.href='https://dabaenterprise.github.io/ai-shopping-copilot/'">← Back to home</button>
   </div>
 
   <div class="success-card" id="loadingCard">
@@ -360,15 +360,21 @@
 
       showSuccess(data.licenceKey, plan);
 
+      // Whether or not auto-activation works, say where the key can be found
+      // again — this page is the only other place it is ever shown.
+      const emailNote = data.emailSent
+        ? " We've also emailed it to you for safekeeping."
+        : " Save it somewhere safe — you'll need it if you reinstall.";
+
       const activated = await autoActivateExtension(data.licenceKey);
       if (activated) {
-        document.getElementById("successSub").textContent = "Your extension is already activated — no copy/paste needed.";
+        document.getElementById("successSub").textContent = "Your extension is already activated — no copy/paste needed." + emailNote;
         document.getElementById("instructionsTitle").textContent = "✓ Pro is active";
         document.getElementById("instructionsList").innerHTML = `
           <li>Click the AI Copilot icon in your toolbar</li>
           <li>Unlimited analyses are unlocked — enjoy! 🎉</li>`;
       } else {
-        document.getElementById("successSub").textContent = "Your licence key is ready. Paste it into the extension to unlock unlimited analyses.";
+        document.getElementById("successSub").textContent = "Your licence key is ready. Paste it into the extension to unlock unlimited analyses." + emailNote;
       }
     } catch (err) {
       showError("Activation Error", err.message || "Could not verify your payment. Please contact support.");

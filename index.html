@@ -339,14 +339,14 @@
   <div class="container">
     <div class="section-eyebrow">Pricing</div>
     <h2 class="section-title">Start free. Go Pro when you're ready.</h2>
-    <p class="section-sub">7 full AI analyses every day, free forever. Upgrade for unlimited.</p>
+    <p class="section-sub">5 full AI analyses every day, free forever. Upgrade for unlimited.</p>
     <div class="pricing-grid" style="grid-template-columns:repeat(3,1fr);max-width:960px">
       <div class="price-card">
         <div class="price-name">Free</div>
         <div class="price-amount">$0</div>
         <div class="price-sub">Forever. No card required.</div>
         <ul class="price-features">
-          <li><span class="check">✓</span> 7 full AI analyses / day</li>
+          <li><span class="check">✓</span> 5 full AI analyses / day</li>
           <li><span class="check">✓</span> Unlimited basic analyses</li>
           <li><span class="check">✓</span> Coupon finder</li>
           <li><span class="check">✓</span> Watchlist &amp; savings</li>
@@ -366,7 +366,7 @@
           <li><span class="check">✓</span> Price history &amp; advice</li>
           <li><span class="check">✓</span> Everything in Free</li>
         </ul>
-        <button class="price-btn primary" onclick="startCheckout('monthly')">Go Pro — $7/month</button>
+        <button class="price-btn primary" onclick="startCheckout('monthly', this)">Go Pro — $7/month</button>
       </div>
       <div class="price-card">
         <div class="price-badge" style="background:var(--surface2);color:var(--gold-lite);border:1px solid var(--gold)">Save 30%</div>
@@ -380,7 +380,7 @@
           <li><span class="check">✓</span> Price history &amp; advice</li>
           <li><span class="check">✓</span> Everything in Free</li>
         </ul>
-        <button class="price-btn ghost" style="border-color:var(--gold);color:var(--gold-lite)" onclick="startCheckout('yearly')">Go Pro — $49/year</button>
+        <button class="price-btn ghost" style="border-color:var(--gold);color:var(--gold-lite)" onclick="startCheckout('yearly', this)">Go Pro — $49/year</button>
       </div>
     </div>
     <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--text-dim)">✓ 7-day money-back guarantee · Secure payment via Stripe</p>
@@ -450,23 +450,29 @@
   var SHARE_TEXT = "AI Shopping Copilot — instant buying scores, real review checks and price history on Amazon, AliExpress, Shein & more. Shop smarter:";
   var BACKEND_URL = "https://backend-z2eg.onrender.com";
 
-  async function startCheckout(plan) {
+  async function startCheckout(plan, btn) {
+    // The backend can take several seconds to respond when it is cold. Without
+    // a pending state the button looks dead and people click it repeatedly,
+    // creating a new Stripe session each time.
+    var originalLabel = btn ? btn.innerHTML : null;
+    if (btn) { btn.disabled = true; btn.innerHTML = "Opening checkout…"; }
     try {
       const res = await fetch(BACKEND_URL + "/api/create-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ plan })
       });
-      const data = await res.json();
-      if (data.url) {
+      const data = await res.json().catch(function(){ return {}; });
+      if (res.ok && data.url) {
         window.location.href = data.url;
-      } else {
-        alert("Failed to start checkout. Please try again.");
+        return; // leave the button disabled while the browser navigates away
       }
+      alert("Failed to start checkout. Please try again.");
     } catch (err) {
       alert("Error: Could not connect to payment service. Please try again.");
       console.error(err);
     }
+    if (btn) { btn.disabled = false; btn.innerHTML = originalLabel; }
   }
 
   async function shareSite() {
