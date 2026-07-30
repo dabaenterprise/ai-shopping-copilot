@@ -112,7 +112,8 @@
   .tag-pro { background: rgba(200,162,75,0.14); color: var(--gold-lite); }
   .tag-free { background: rgba(47,204,113,0.14); color: var(--green); }
 
-  .platform-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:20px; }
+  .platform-grid { display:grid; grid-template-columns: repeat(4,1fr); gap:20px; }
+  @media (max-width:1000px){ .platform-grid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:760px){ .platform-grid{ grid-template-columns:1fr; } }
   .platform-card { background: var(--ink); border:1px solid var(--line); border-radius:18px; padding:26px; }
   .platform-card .pf-icon { font-size:30px; margin-bottom:12px; }
@@ -278,6 +279,11 @@
         <h3>Shein</h3>
         <p>Focuses on sizing intelligence — flags "runs small/large" and photo-vs-reality complaints.</p>
       </div>
+      <div class="platform-card">
+        <div class="pf-icon">🏭</div>
+        <h3>Alibaba</h3>
+        <p>Reads B2B reality — per-unit pricing at MOQ, bulk tiers and supplier verification over review counts.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -299,7 +305,7 @@
         <div class="step-num">2</div>
         <div class="step-content">
           <h3>Open any product page</h3>
-          <p>Works on Amazon worldwide, AliExpress, Shein, eBay, Walmart, Best Buy, JB Hi-Fi, Kogan, Harvey Norman and more.</p>
+          <p>Works on Amazon worldwide, AliExpress, Alibaba, Shein, Temu, eBay, Walmart, Best Buy, Target, Etsy, JB Hi-Fi, Kogan, Harvey Norman and more.</p>
         </div>
       </div>
       <div class="step">
@@ -331,6 +337,10 @@
       <div class="site-chip"><span class="site-flag">🎧</span>JB Hi-Fi</div>
       <div class="site-chip"><span class="site-flag">📱</span>Kogan</div>
       <div class="site-chip"><span class="site-flag">🏠</span>Harvey Norman</div>
+      <div class="site-chip"><span class="site-flag">🏭</span>Alibaba</div>
+      <div class="site-chip"><span class="site-flag">🧧</span>Temu</div>
+      <div class="site-chip"><span class="site-flag">🎯</span>Target</div>
+      <div class="site-chip"><span class="site-flag">🎨</span>Etsy</div>
     </div>
   </div>
 </section>

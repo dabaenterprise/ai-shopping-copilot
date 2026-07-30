@@ -261,7 +261,6 @@
     }
 
     .open-hint {
-      display: none;
       background: rgba(200, 162, 75, 0.10);
       border: 1px solid rgba(200, 162, 75, 0.28);
       border-radius: 12px;
@@ -303,12 +302,11 @@
     </div>
 
     <div class="action-btns">
-      <button class="btn btn-primary" onclick="openExtension()">🧩 Open Extension</button>
-      <div class="open-hint" id="openHint">
-        Chrome doesn't allow a web page to open an extension directly.
-        Click the <strong>🧩 puzzle-piece icon</strong> at the top-right of your
-        toolbar, then choose <strong>AI Shopping Copilot</strong> — pin it to keep
-        it one click away.
+      <div class="open-hint">
+        <strong>Where to find the extension:</strong> click the
+        <strong>🧩 puzzle-piece icon</strong> at the top-right of your toolbar,
+        then choose <strong>AI Shopping Copilot</strong> — pin it to keep it one
+        click away.
       </div>
       <a href="https://dabaenterprise.github.io/ai-shopping-copilot/" class="btn btn-secondary" style="text-align: center; text-decoration: none;">← Back to home</a>
     </div>
@@ -426,29 +424,10 @@
     });
   });
 
-  // Chrome only lets an extension open its own popup in response to a gesture
-  // inside the extension itself, so a click here usually cannot do it — and
-  // there is no way to know without asking. Try, and if it doesn't open, say
-  // plainly what to do instead rather than leaving the button looking broken.
-  function openExtension() {
-    const hint = document.getElementById("openHint");
-
-    if (typeof chrome === "undefined" || !chrome.runtime || !chrome.runtime.sendMessage) {
-      hint.style.display = "block";
-      return;
-    }
-
-    try {
-      chrome.runtime.sendMessage(EXTENSION_ID, { type: "OPEN_POPUP" }, (response) => {
-        // lastError fires when the extension isn't installed or is an older
-        // build whose handler never replies. Either way: show the hint.
-        void chrome.runtime.lastError;
-        if (!(response && response.ok)) hint.style.display = "block";
-      });
-    } catch (e) {
-      hint.style.display = "block";
-    }
-  }
+  // There is deliberately no "Open Extension" button: Chrome only lets an
+  // extension open its own popup from a gesture inside the extension itself, so
+  // a click on this page can never do it. The always-visible hint above tells
+  // the user where to click instead.
 
   activateAccount();
 </script>
