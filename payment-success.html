@@ -6,6 +6,7 @@
   <title>Activation Successful — AI Shopping Copilot</title>
   <link rel="icon" href="favicon.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <script src="analytics.js"></script>
   <style>
     :root {
       --ink:      #0E1116;
@@ -376,6 +377,11 @@
       }
 
       showSuccess(data.licenceKey, plan);
+
+      // Counted here rather than on page load: at this point the payment has
+      // been verified and a licence exists, so a failed activation can never be
+      // reported as a sale.
+      window.DABA_TRACK.purchase(plan, sessionId);
 
       // Whether or not auto-activation works, say where the key can be found
       // again — this page is the only other place it is ever shown.

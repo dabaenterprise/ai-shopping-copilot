@@ -7,6 +7,7 @@
 <meta name="description" content="AI Shopping Copilot analyses products on Amazon, AliExpress, Shein, eBay, Walmart and 20+ more stores — buying score, price history, review-trust check and clear verdict in seconds. Free to start."/>
 <link rel="icon" href="favicon.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="analytics.js"></script>
 <style>
   :root {
     --ink:      #0E1116;
@@ -466,6 +467,7 @@
     // creating a new Stripe session each time.
     var originalLabel = btn ? btn.innerHTML : null;
     if (btn) { btn.disabled = true; btn.innerHTML = "Opening checkout…"; }
+    window.DABA_TRACK.beginCheckout(plan);
     try {
       const res = await fetch(BACKEND_URL + "/api/create-checkout", {
         method: "POST",
