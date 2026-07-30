@@ -35,7 +35,7 @@
     purchaseLabel: "",
     storeClickLabel: "",
 
-    currency: "USD",      // must match the currency your Stripe prices are in
+    currency: "AUD",      // must match the currency your Stripe prices are in
     planValues: { monthly: 7, yearly: 49 }
   };
 
