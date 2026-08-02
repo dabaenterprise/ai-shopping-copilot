@@ -26,14 +26,14 @@
 
   // ── Paste the real IDs here. An empty string leaves that piece switched off. ─
   var CONFIG = {
-    ga4Id: "",            // GA4 measurement ID, e.g. "G-ABCD123456"
-    adsId: "",            // Google Ads conversion ID, e.g. "AW-1234567890"
+    ga4Id: "G-ETLPVL7PJV",       // GA4 measurement ID
+    adsId: "AW-775985197",       // Google Ads conversion ID
 
     // Conversion labels from Google Ads — the part after the slash in the
     // send_to value Ads shows you, e.g. "AbC-D_efG-h12_34-567".
-    installLabel: "",
-    purchaseLabel: "",
-    storeClickLabel: "",
+    installLabel: "riLwCPTazdocEK2wgvIC",
+    purchaseLabel: "6VGICPHazdocEK2wgvIC",
+    storeClickLabel: "P7dVCPfazdocEK2wgvIC",
 
     currency: "AUD",      // must match the currency your Stripe prices are in
     planValues: { monthly: 7, yearly: 49 }
