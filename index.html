@@ -165,6 +165,37 @@
   .cta-inner p { font-size:17px; color: var(--text-dim); margin-bottom:30px; }
   @media (max-width:760px){ .cta-inner h2{ font-size:28px; } }
 
+  .prose { max-width: 780px; margin: 0 auto; }
+  .prose h3 { font-size:22px; font-weight:800; margin: 34px 0 10px; letter-spacing:-.4px; }
+  .prose h3:first-child { margin-top:0; }
+  .prose p { font-size:16px; color: var(--text-dim); margin-bottom: 14px; }
+  .prose p strong { color: var(--text); font-weight:700; }
+  .prose ul { margin: 0 0 16px 20px; }
+  .prose li { font-size:16px; color: var(--text-dim); margin-bottom: 8px; }
+  .prose li strong { color: var(--text); }
+  .callout { background: var(--surface); border:1px solid var(--line); border-left:3px solid var(--gold); border-radius: 0 14px 14px 0; padding: 20px 24px; margin: 26px 0; }
+  .callout p:last-child { margin-bottom:0; }
+
+  .weights { display:grid; grid-template-columns: repeat(3,1fr); gap:16px; margin: 26px 0; }
+  @media (max-width:760px){ .weights{ grid-template-columns:1fr; } }
+  .weight { background: var(--ink); border:1px solid var(--line); border-radius:16px; padding:22px; }
+  .weight .w-pct { font-size:32px; font-weight:900; letter-spacing:-1px; color: var(--gold-lite); }
+  .weight h4 { font-size:16px; font-weight:700; margin:4px 0 8px; }
+  .weight p { font-size:13.5px; color: var(--text-dim); }
+
+  .band-table { width:100%; border-collapse:collapse; margin: 22px 0; font-size:15px; }
+  .band-table th { text-align:left; font-size:12px; letter-spacing:1px; text-transform:uppercase; color: var(--text-dim); font-weight:700; padding:0 12px 10px 0; border-bottom:1px solid var(--line); }
+  .band-table td { padding:12px 12px 12px 0; border-bottom:1px solid var(--line); color: var(--text-dim); vertical-align:top; }
+  .band-table td:first-child { font-weight:800; color: var(--text); white-space:nowrap; }
+  .band-dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:8px; }
+
+  .faq-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 980px; margin: 0 auto; }
+  @media (max-width:860px){ .faq-grid{ grid-template-columns:1fr; } }
+  .faq-item { background: var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px 24px; }
+  .faq-item h3 { font-size:16px; font-weight:700; margin-bottom:8px; }
+  .faq-item p { font-size:14.5px; color: var(--text-dim); }
+  .faq-item p + p { margin-top:9px; }
+
   footer { border-top:1px solid var(--line); padding: 44px 0; background: var(--ink); }
   .footer-inner { display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
   .footer-brand { display:flex; align-items:center; gap:12px; }
@@ -190,8 +221,9 @@
     <nav class="nav-links">
       <a href="#features">Features</a>
       <a href="#how">How it works</a>
+      <a href="#methodology">Methodology</a>
       <a href="#pricing">Pricing</a>
-      <a href="AI-Shopping-Copilot-User-Manual.pdf" target="_blank">User Guide</a>
+      <a href="#faq">FAQ</a>
       <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/jmkamccanemafdjhekmpjpcbiomicljj" class="nav-cta" target="_blank">Add to Chrome</a>
     </nav>
   </div>
@@ -320,7 +352,139 @@
   </div>
 </section>
 
-<section class="alt">
+<section class="alt" id="methodology">
+  <div class="container">
+    <div class="section-eyebrow">Methodology</div>
+    <h2 class="section-title">How the Buying Score is calculated</h2>
+    <p class="section-sub">The score isn't a rating average and it isn't a black box. Here is exactly what goes into it.</p>
+
+    <div class="prose">
+      <p>Every product page you analyse produces a single number from 0 to 100. That number is built from three
+      independently assessed components, each scored on its own before being combined. We publish the weighting because
+      a score you can't interrogate isn't worth acting on.</p>
+
+      <div class="weights">
+        <div class="weight">
+          <div class="w-pct">40%</div>
+          <h4>Value</h4>
+          <p>Current price measured against the product's own 12-month history and against comparable listings for the
+          same item. A permanent "50% off" that never moves scores as full price, because that is what it is.</p>
+        </div>
+        <div class="weight">
+          <div class="w-pct">35%</div>
+          <h4>Quality</h4>
+          <p>What reviewers actually report about build, materials, accuracy of the listing photos and whether the item
+          survives past the first few weeks — drawn from review text, not star counts.</p>
+        </div>
+        <div class="weight">
+          <div class="w-pct">25%</div>
+          <h4>Reliability</h4>
+          <p>Seller track record, return and warranty terms, shipping claims versus reported reality, and how much of
+          the review base looks organic.</p>
+        </div>
+      </div>
+
+      <h3>Why star ratings are the weakest input</h3>
+      <p>A 4.6-star average tells you almost nothing on its own. It compresses a thousand different experiences into one
+      number, it is trivially inflated by incentivised reviews, and it is heavily weighted toward the earliest buyers —
+      who are typically the most enthusiastic and who bought a version of the product that may since have changed.</p>
+      <p>So the star average is treated as one weak signal among many. The heavier signals come from the review
+      <em>text</em>: which specific complaints recur, whether they cluster around a particular date (often a sign the
+      manufacturer changed a component), whether positive reviews describe the product in concrete detail or in generic
+      language, and how the ratio of detailed-to-generic reviews compares to the norm for that category.</p>
+
+      <h3>How review-trust checking works</h3>
+      <p>Fake and incentivised reviews leave patterns. The review-trust check looks for the ones that survive
+      translation across marketplaces:</p>
+      <ul>
+        <li><strong>Timing clusters.</strong> Organic reviews arrive on a long tail. A burst of dozens of five-star
+        reviews inside a few days, especially shortly after listing, is not how real purchase behaviour looks.</li>
+        <li><strong>Language uniformity.</strong> Genuine reviewers write about their own use case in their own words.
+        Paid reviews converge on the same phrases, the same length, and the same structure.</li>
+        <li><strong>Rating shape.</strong> A healthy product shows a J-curve — mostly high ratings with a real tail of
+        low ones. A product with almost no middle and no low ratings has usually had its low ratings suppressed or its
+        high ratings manufactured.</li>
+        <li><strong>Listing reuse.</strong> On some marketplaces a seller can swap the product behind an established
+        listing while keeping its review history. Reviews describing a completely different item than the one on sale
+        are a strong signal that this has happened.</li>
+        <li><strong>Verified-purchase ratio.</strong> Weighted differently per platform, because the meaning of
+        "verified" differs a great deal between Amazon and, say, AliExpress.</li>
+      </ul>
+      <p>The output is an authenticity percentage plus the specific reasons behind it. You always see why, not just the
+      number.</p>
+
+      <h3>What each score band means</h3>
+      <table class="band-table">
+        <thead>
+          <tr><th>Score</th><th>Verdict</th><th>What it means in practice</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="band-dot" style="background:var(--green)"></span>80–100</td>
+            <td>Buy</td>
+            <td>Fairly priced against its own history, quality reports are consistent, and the review base looks
+            genuine. No meaningful reason to wait.</td>
+          </tr>
+          <tr>
+            <td><span class="band-dot" style="background:var(--gold)"></span>60–79</td>
+            <td>Buy with conditions</td>
+            <td>Sound product, but something is off — usually the price is above its normal band, or a specific
+            recurring complaint applies to some buyers. The report names the condition.</td>
+          </tr>
+          <tr>
+            <td><span class="band-dot" style="background:var(--amber)"></span>40–59</td>
+            <td>Wait</td>
+            <td>Typically a price that has been higher than usual for weeks, or a product whose recent reviews are
+            noticeably worse than its older ones. Waiting is usually the better move.</td>
+          </tr>
+          <tr>
+            <td><span class="band-dot" style="background:var(--red)"></span>0–39</td>
+            <td>Avoid</td>
+            <td>Serious problems: heavily manipulated reviews, a seller with a poor track record, a fake discount, or
+            recurring reports of the item failing quickly.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Why the analysis differs per store</h3>
+      <p>A single scoring model applied identically to every marketplace produces bad results, because the marketplaces
+      are not comparable. On Amazon, verified-purchase status and seller reputation are meaningful and available, so
+      they carry real weight. On AliExpress the same fields exist but mean much less, while shipping time and
+      item-as-described disputes matter far more — so those move to the front. On Shein, sizing is the single largest
+      source of returns, so the model prioritises whether reviewers report the item running small or large and whether
+      the photos match what arrived. On Alibaba the buyer is usually a business, so per-unit price at minimum order
+      quantity, bulk tiers and supplier verification displace review volume almost entirely.</p>
+
+      <div class="callout">
+        <p><strong>What the score is not.</strong> It is an assessment of a listing at a point in time, based on
+        publicly visible information on that page. It is not a guarantee, not financial advice, and not a substitute
+        for your own judgement about whether you need the item at all. Prices and listings change; a score from last
+        month may not hold today.</p>
+      </div>
+
+      <h3>Where the price history comes from</h3>
+      <p>Price history is assembled from observed listing prices over time for the specific product identifier, up to
+      12 months where available. Coverage is better on large catalogues that have been tracked longer, and thinner on
+      newly listed items — where there is not enough history to be useful, the report says so rather than drawing a
+      confident-looking line through two data points.</p>
+      <p>The practical use of this is spotting anchored discounts. A "was $199, now $99" claim is only a discount if the
+      item has actually sold at $199 recently. A large share of the permanent-sale listings you see have not.</p>
+
+      <h3>Limits worth knowing</h3>
+      <ul>
+        <li>The extension reads the visible text of the product page you are on. If a page hides key detail behind
+        interactions the extension can't see, that detail is not in the analysis.</li>
+        <li>Brand-new listings with a handful of reviews cannot be assessed for review authenticity with any
+        confidence. The report will tell you the sample is too small rather than invent a percentage.</li>
+        <li>Very niche or specialist categories — industrial parts, medical devices, some regulated goods — have thin
+        comparable data, and the score should be treated as a rough prior at best.</li>
+        <li>AI analysis can be wrong. Treat the report as a well-informed second opinion, not a verdict.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
   <div class="container">
     <div class="section-eyebrow">Coverage</div>
     <h2 class="section-title">All your favourite stores. One AI copilot.</h2>
@@ -394,7 +558,11 @@
         <button class="price-btn ghost" style="border-color:var(--gold);color:var(--gold-lite)" onclick="startCheckout('yearly', this)">Go Pro — $49/year</button>
       </div>
     </div>
-    <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--text-dim)">✓ 7-day money-back guarantee · Secure payment via Stripe</p>
+    <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--text-dim)">
+      ✓ <a href="refund-policy.html" style="color:var(--gold-lite)">7-day money-back guarantee</a> ·
+      Secure payment via Stripe · Cancel any time ·
+      Billed in AUD · <a href="terms.html" style="color:var(--gold-lite)">Terms</a>
+    </p>
   </div>
 </section>
 
@@ -410,6 +578,99 @@
         <a class="share-btn" id="shareFb" target="_blank">📘 Facebook</a>
         <button class="share-btn" onclick="copyLink(this)">🔗 Copy link</button>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <div class="section-eyebrow">Questions</div>
+    <h2 class="section-title">Frequently asked questions</h2>
+    <p class="section-sub">Everything people ask before installing. If yours isn't here, email us — a person answers.</p>
+    <div class="faq-grid">
+
+      <div class="faq-item">
+        <h3>Do I need an account or an API key?</h3>
+        <p>No. Install the extension, open a product page, click Analyse. There is no sign-up, no email required and no
+        API key to paste. You only give us an email address if you buy Pro, and that comes from Stripe at checkout.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What do I get on the free plan?</h3>
+        <p>Five full AI analyses every day — the complete report, not a teaser — plus unlimited basic analyses, the
+        coupon finder, the watchlist and AI chat. The daily count resets at midnight in your local time.</p>
+        <p>It's free permanently, not a trial that expires.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What does Pro actually add?</h3>
+        <p>Unlimited full analyses, and the three components that make up the score in detail: the Buying Score
+        breakdown, the review-trust check with its reasoning, and 12-month price history with buy-or-wait advice.</p>
+        <p>If you shop occasionally, the free plan is genuinely enough. Pro is for people analysing several items a
+        day.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Does it slow down my browsing?</h3>
+        <p>No. Nothing runs until you open the extension on a product page and ask for an analysis. It does not run in
+        the background, does not inject anything into pages you haven't asked about, and adds nothing to page load.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What data do you collect?</h3>
+        <p>When you request an analysis, the visible text of that product page is sent to our server, analysed, and
+        discarded — it isn't stored or tied to any identity. We don't collect your browsing history, location or IP,
+        and we don't sell data.</p>
+        <p>Full detail is in the <a href="privacy-policy.html" style="color:var(--gold)">privacy policy</a>.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How accurate is the AI?</h3>
+        <p>It's a well-informed second opinion, not an oracle. It's strongest where there's plenty of public signal —
+        popular electronics, homewares, fashion — and weakest on brand-new listings or niche categories with little
+        history. When confidence is low, the report says so instead of guessing.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Do affiliate commissions affect my score?</h3>
+        <p>No. Buy links may be affiliate links and we may earn a commission at no extra cost to you. The scoring model
+        has no access to which merchants pay us — it can't favour them because it doesn't know.</p>
+        <p>We'd rather tell you to skip a purchase and keep you using the tool.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Which browsers are supported?</h3>
+        <p>Chrome, and Chromium-based browsers that install from the Chrome Web Store — Edge, Brave, Opera, Arc and
+        Vivaldi. There is no Firefox, Safari, iOS or Android version yet.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Which currency are the prices in?</h3>
+        <p>Pro is billed in Australian dollars — A$7 per month or A$49 per year. Your card issuer converts at their
+        rate if you're paying from another country, so the amount on your statement will differ slightly.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I cancel?</h3>
+        <p>Any time, from the billing portal link in your licence email, or by emailing us. Cancelling stops the next
+        renewal and you keep Pro until the end of the period you've paid for. No cancellation fee, no retention
+        phone call.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can I get a refund?</h3>
+        <p>Yes — within 7 days of purchase, for any reason, no questions asked. Email
+        <a href="mailto:contact@daba-enterprise.com" style="color:var(--gold)">contact@daba-enterprise.com</a> and
+        we'll process it. Details in the <a href="refund-policy.html" style="color:var(--gold)">refund policy</a>.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>I bought Pro but it still shows Free.</h3>
+        <p>Your licence key is emailed on purchase — open the extension, go to Settings, and paste it in. If the email
+        hasn't arrived within a few minutes, check spam, then email us with the address you paid with and we'll resend
+        it manually.</p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -435,12 +696,15 @@
         </div>
       </a>
       <div class="footer-links">
-        <a href="#features">Features</a>
+        <a href="about.html">About</a>
+        <a href="#methodology">Methodology</a>
         <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
         <a href="AI-Shopping-Copilot-User-Manual.pdf" target="_blank">User Guide</a>
+        <a href="contact.html">Contact</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund-policy.html">Refunds</a>
         <a href="privacy-policy.html">Privacy</a>
-        <a href="mailto:contact@daba-enterprise.com">Contact</a>
-        <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/jmkamccanemafdjhekmpjpcbiomicljj" target="_blank">Add to Chrome</a>
       </div>
     </div>
     <div class="footer-copy" style="margin-bottom:14px">
